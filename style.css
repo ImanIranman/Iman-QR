@@ -1,0 +1,169 @@
+
+/* Datei: style.css */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 550px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #222;
+  background: linear-gradient(135deg, #007bff, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="file"],
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background: #fefefe;
+  box-shadow: inset 1px 1px 0 #ffffffaa, inset -1px -1px 0 #00000022;
+}
+
+.color-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.color-item {
+  flex: 0 0 48%;
+  text-align: center;
+}
+
+.color-item label {
+  margin-bottom: 8px;
+  display: block;
+  font-weight: 600;
+}
+
+.color-item input[type="color"] {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #fff;
+  box-shadow: 
+    inset -4px -4px 8px rgba(255, 255, 255, 0.6),
+    inset 4px 4px 10px rgba(0, 0, 0, 0.2),
+    0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease-in-out;
+}
+
+.color-item input[type="color"]:active {
+  box-shadow: 
+    inset 4px 4px 8px rgba(255, 255, 255, 0.6),
+    inset -4px -4px 10px rgba(0, 0, 0, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.color-item input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 50%;
+}
+
+.color-item input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 50%;
+}
+
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  cursor: pointer;
+  position: relative;
+  box-shadow: inset 1px 1px 0 #ffffff99,
+              inset -1px -1px 0 #00000033,
+              0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease-in-out;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:active {
+  box-shadow: inset -1px -1px 0 #ffffff99,
+              inset 1px 1px 0 #00000033,
+              0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
+}
+
+details summary {
+  padding: 12px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  box-shadow: inset 1px 1px 0 #ffffffcc,
+              inset -1px -1px 0 #00000022;
+}
+
+details[open] summary {
+  background-color: #ccc;
+}
+
+#install-hint {
+  font-size: 0.9rem;
+  color: #777;
+  text-align: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .color-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .color-item {
+    flex: unset;
+  }
+}

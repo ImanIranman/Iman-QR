@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iman QR-Code Generator</title>
+  <link rel="manifest" href="manifest.json">
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 550px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      text-align: center;
+      margin-top: 5px;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="file"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .color-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .color-item {
+      flex: 0 0 48%;
+      text-align: center;
+    }
+
+    .color-item label {
+      margin-bottom: 8px;
+      display: block;
+      font-weight: 600;
+    }
+
+    .color-item input[type="color"] {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      border: 2px solid #000;
+      padding: 0;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .color-item input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    .color-item input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 50%;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #qr-preview {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+
+    details summary {
+      padding: 12px;
+      background-color: #e0e0e0;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    details[open] summary {
+      background-color: #ccc;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      h2 {
+        font-size: 1.1rem;
+      }
+
+      .color-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .color-item {
+        flex: unset;
+      }
+    }
+
+    #install-hint {
+      font-size: 0.9rem;
+      color: #777;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Erstelle deinen QR-Code</h1>
+    <h2>Ein QR-Code zu deiner Webseite<br>Füge optional dein Logo hinzu<br>QR-Code als Visitenkarte</h2>
+
+    <label for="qr-data">Link einfügen:</label>
+    <input type="text" id="qr-data" placeholder="z. B. https://deine-seite.de" />
+
+    <details>
+      <summary style="background-color: #d0e0ff; border: 1px solid #007bff; color: #003f7f;">➕ Visitenkarte eingeben (optional)</summary>
+      <div style="margin-top: 10px;">
+        <label for="v-name">Name:</label>
+        <input type="text" id="v-name" placeholder="Max Mustermann" />
+        <label for="v-firma">Unternehmen (optional):</label>
+        <input type="text" id="v-firma" placeholder="Mustermann GmbH" />
+        <label for="v-tel">Telefonnummer:</label>
+        <input type="tel" id="v-tel" placeholder="+49 123 456789" />
+        <label for="v-email">E-Mail:</label>
+        <input type="email" id="v-email" placeholder="max@example.com" />
+        <label for="v-adr">Adresse:</label>
+        <input type="text" id="v-adr" placeholder="Musterstraße 1, 12345 Musterstadt" />
+      </div>
+    </details>
+
+    <div class="color-row">
+      <div class="color-item">
+        <label for="qr-color">Farbe 1</label>
+        <input type="color" id="qr-color" value="#000000" />
+      </div>
+      <div class="color-item">
+        <label for="qr-bg">Farbe 2</label>
+        <input type="color" id="qr-bg" value="#ffffff" />
+      </div>
+    </div>
+
+    <label for="qr-logo">Optional: Logo hochladen (PNG/JPG):</label>
+    <input type="file" id="qr-logo" accept="image/*" />
+
+    <label for="qr-format">Dateiformat für Download:</label>
+    <select id="qr-format">
+      <option value="png">PNG</option>
+      <option value="jpeg">JPEG</option>
+      <option value="svg">SVG</option>
+      <option value="webp">WebP</option>
+    </select>
+
+    <button onclick="generateQRCode()">QR-Code erstellen</button>
+    <button onclick="downloadQRCode()">QR-Code herunterladen</button>
+
+    <div id="qr-preview"></div>
+
+    <div id="install-hint" style="display: none;">
+      ➕ Um diese App auf deinem Startbildschirm zu speichern:<br>
+      iOS: Tippe auf „Teilen“ und wähle „Zum Home-Bildschirm hinzufügen“<br>
+      Android: Menü öffnen und „App installieren“ auswählen
+    </div>
+  </div>
+
+  <script>
+    let qrCode = null;
+
+    function generateQRCode() {
+      const dataInput = document.getElementById("qr-data").value.trim();
+      const color = document.getElementById("qr-color").value;
+      const bgColor = document.getElementById("qr-bg").value;
+      const logoInput = document.getElementById("qr-logo");
+
+      const vName = document.getElementById("v-name").value.trim();
+      const vFirma = document.getElementById("v-firma").value.trim();
+      const vTel = document.getElementById("v-tel").value.trim();
+      const vEmail = document.getElementById("v-email").value.trim();
+      const vAdr = document.getElementById("v-adr").value.trim();
+
+      let qrData = dataInput;
+
+      if (vName && vTel && vEmail && vAdr) {
+        qrData = `BEGIN:VCARD\nVERSION:3.0\nN:${vName}\nORG:${vFirma}\nTEL:${vTel}\nEMAIL:${vEmail}\nADR:${vAdr}\nEND:VCARD`;
+      }
+
+      const options = {
+        width: 300,
+        height: 300,
+        data: qrData,
+        image: "",
+        dotsOptions: {
+          color: color,
+          type: "rounded"
+        },
+        backgroundOptions: {
+          color: bgColor
+        },
+        imageOptions: {
+          crossOrigin: "anonymous",
+          margin: 5
+        }
+      };
+
+      const preview = document.getElementById("qr-preview");
+      preview.innerHTML = "";
+      const loadingText = document.createElement("p");
+      loadingText.textContent = "QR-Code wird generiert...";
+      loadingText.style.fontStyle = "italic";
+      loadingText.style.color = "#777";
+      preview.appendChild(loadingText);
+
+      if (logoInput.files && logoInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          options.image = e.target.result;
+          renderQRCode(options);
+        };
+        reader.readAsDataURL(logoInput.files[0]);
+      } else {
+        renderQRCode(options);
+      }
+    }
+
+    function renderQRCode(options) {
+      const preview = document.getElementById("qr-preview");
+      preview.innerHTML = "";
+      qrCode = new QRCodeStyling(options);
+      qrCode.append(preview);
+    }
+
+    function downloadQRCode() {
+      if (!qrCode) {
+        alert("Bitte zuerst QR-Code generieren.");
+        return;
+      }
+      const format = document.getElementById("qr-format").value;
+      const dateStr = new Date().toISOString().slice(0, 19).replace(/:/g, "-");
+      const timestamp = new Date().getTime();
+      qrCode.download({ name: `iman-qr-code-${dateStr}-${timestamp}`, extension: format });
+    }
+
+    window.addEventListener('load', () => {
+      const hint = document.getElementById('install-hint');
+      if (window.matchMedia('(display-mode: browser)').matches) {
+        hint.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
